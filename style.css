@@ -1,0 +1,30 @@
+.container{
+    text-align: center;
+}
+#header{
+    margin-top: 30px;
+}
+input{
+    border: 1px solid black;
+    margin-top: 30px;
+}
+#inputContainer{
+}
+h1{
+    display: inline;
+    padding-left: 10px;
+}
+i{
+    display: inline;
+}
+li{
+    list-style: none;
+    border: 1px solid black;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+ul{
+    text-align: left;
+    padding: 0;
+}
