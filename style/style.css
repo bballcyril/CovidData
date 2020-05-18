@@ -8,14 +8,18 @@ input{
     border: 1px solid black;
     margin-top: 30px;
 }
-#inputContainer{
-}
+
 h1{
     display: inline;
     padding-left: 10px;
 }
 i{
     display: inline;
+}
+h3{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
 }
 li{
     list-style: none;
@@ -27,4 +31,12 @@ li{
 ul{
     text-align: left;
     padding: 0;
+}
+#dataContainer{
+    padding-top: 50px;
+}
+.col-md{
+}
+#total{
+    
 }

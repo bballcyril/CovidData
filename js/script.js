@@ -1,23 +1,25 @@
 
 
 $(document).ready(function(){
-    let countries;
     let inputCountry;
+    let data;
 
-    //Get list of countries from API
-    const getCountries = async () =>{
-        const res = await fetch('https://api.covid19api.com/countries');
-        countries = await res.json();
-       
-    };
-   
+   const getData = async () =>{
+       const res = await fetch('https://api.covid19api.com/summary');
+       data = await res.json();
+       console.log(data);
+       $("#confirmed").append(`<br>${formatNumber(data.Global.TotalConfirmed)}`);
+       $("#recoveries").append(`<br>${formatNumber(data.Global.TotalRecovered)}`);
+       $("#deaths").append(`<br>${formatNumber(data.Global.TotalDeaths)}`);
+   };
+     
     //On keypress
     $(".userInput").on('keyup',function(e){
         let input = e.target.value;
         let html ='';
 
-        //Match input to list of countries
-        let matches = countries.filter(country =>{
+        //Filters list of countries based on user input
+        let matches = data.Countries.filter(country =>{
             const regex = new RegExp(`^${input}`,'gi');
             return country.Country.match(regex);
         });
@@ -34,18 +36,34 @@ $(document).ready(function(){
 
         //When user clicks an option
         $("li").click(function(){
+            let dataHTML ='';
+            let totalHTML = '<div><h2>Total</h2></div> ';
+            let todayHTML ='<div><h2>Today</h2></div>';
             inputCountry = this.innerHTML;
-            console.log(inputCountry);
             $("ul").html("");
             $(".userInput").val(inputCountry);
+            data.Countries.forEach(element =>{
+                if(element.Country==inputCountry){
+                    dataHTML+= `<h3>COVID-19 Data for ${element.Country} as of ${element.Date.substring(0,element.Date.indexOf("T"))}</h3>`;
+                    totalHTML+=`<div>  <h2>Confirmed Cases: </h2> <h4>${formatNumber(element.TotalConfirmed)}</h4> </div> <div><h2>Recoveries: </h2><h4>${formatNumber(element.TotalRecovered)} </h4></div> <div> <h2>Deaths: </h2> <h4> ${formatNumber(element.TotalDeaths)}</h4></div>`;
+                    todayHTML+=`<div> <h2>Confirmed Cases:</h2> <h4>${formatNumber(element.NewConfirmed)}</h4></div> <div> <h2>Recoveries:</h2> <h4>${formatNumber(element.NewRecovered)}</h4> </div> <div> <h2>Deaths:</h2> <h4>${formatNumber(element.NewDeaths)}</h4></div>`;
+
+                }
+            });
+            $("#dataContainer").html(dataHTML);
+            $("#total").html(totalHTML);
+            $("#today").html(todayHTML);
         });
 
-        if (input.length==0){
+        if (input.length===0){
             $("ul").html("");
             matches=[];
         }
         console.log(matches);
 
     });
-    window.addEventListener('DOMContentLoaded',getCountries());
+    const formatNumber = num =>{
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    window.addEventListener('DOMContentLoaded',getData());
 });
