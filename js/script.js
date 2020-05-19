@@ -9,8 +9,8 @@ $(document).ready(function(){
        data = await res.json();
        console.log(data);
        $("#confirmed").append(`<br>${formatNumber(data.Global.TotalConfirmed)}`);
-       $("#recoveries").append(`<br>${formatNumber(data.Global.TotalRecovered)}`);
-       $("#deaths").append(`<br>${formatNumber(data.Global.TotalDeaths)}`);
+       $("#recoveries").append(`<span class = "text-success"> <br>${formatNumber(data.Global.TotalRecovered)}</span><span> (+${formatNumber(data.Global.NewRecovered)})</span>`);
+       $("#deaths").append(`<span class="text-danger"><br>${formatNumber(data.Global.TotalDeaths)}</span> <span> (+${formatNumber(data.Global.NewDeaths)})</span>`);
    };
      
     //On keypress
@@ -30,7 +30,7 @@ $(document).ready(function(){
         $(".countryList").html(html);
         $("li").hover(function(){
             $(this).addClass("active");
-        }, function(){
+        }, function(){  
             $(this).removeClass("active");
         });
 
@@ -45,9 +45,8 @@ $(document).ready(function(){
             data.Countries.forEach(element =>{
                 if(element.Country==inputCountry){
                     dataHTML+= `<h3>COVID-19 Data for ${element.Country} as of ${element.Date.substring(0,element.Date.indexOf("T"))}</h3>`;
-                    totalHTML+=`<div>  <h2>Confirmed Cases: </h2> <h4>${formatNumber(element.TotalConfirmed)}</h4> </div> <div><h2>Recoveries: </h2><h4>${formatNumber(element.TotalRecovered)} </h4></div> <div> <h2>Deaths: </h2> <h4> ${formatNumber(element.TotalDeaths)}</h4></div>`;
-                    todayHTML+=`<div> <h2>Confirmed Cases:</h2> <h4>${formatNumber(element.NewConfirmed)}</h4></div> <div> <h2>Recoveries:</h2> <h4>${formatNumber(element.NewRecovered)}</h4> </div> <div> <h2>Deaths:</h2> <h4>${formatNumber(element.NewDeaths)}</h4></div>`;
-
+                    totalHTML+=`<div>  <h2>Confirmed Cases: </h2> <h4>${formatNumber(element.TotalConfirmed)}</h4> </div> <div><h2>Recoveries: </h2><h4 class="text-success">${formatNumber(element.TotalRecovered)} </h4></div> <div> <h2>Deaths: </h2> <h4 class="text-danger"> ${formatNumber(element.TotalDeaths)}</h4></div>`;
+                    todayHTML+=`<div> <h2>Confirmed Cases:</h2> <h4>${formatNumber(element.NewConfirmed)}</h4></div> <div> <h2>Recoveries:</h2> <h4 class="text-success">${formatNumber(element.NewRecovered)}</h4> </div> <div> <h2>Deaths:</h2> <h4 class="text-danger">${formatNumber(element.NewDeaths)}</h4></div>`;
                 }
             });
             $("#dataContainer").html(dataHTML);
