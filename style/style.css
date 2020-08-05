@@ -40,3 +40,12 @@ ul{
 #total{
     
 }
+footer{
+    position: fixed;
+    bottom: 0;
+    padding-left: 10px;
+}
+span:first-child{
+    padding-left: 10px;
+   
+}
